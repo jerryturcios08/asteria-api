@@ -11,12 +11,18 @@ blueprint = Blueprint('users', __name__, url_prefix='/users')
 
 @blueprint.route('/', methods=('POST',))
 def create_user():
+    """The create_user function allows an HTTP request to send the fields for a User class in order to add a new user
+    to the database.
+
+    :return: JSON response based on whether or not a User instance was successfully created.
+    """
     first_name = request.json['first_name']
     last_name = request.json['last_name']
     email = request.json['email']
     password = request.json['password']
     error = None
 
+    # Checks if any of the fields are missing and sets the error accordingly.
     if not first_name:
         error = 'First name is required.'
     elif not last_name:
@@ -26,6 +32,7 @@ def create_user():
     elif not password:
         error = 'Password is required.'
 
+    # Creates the new user if no error is present
     if error is None:
         new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
         db.session.add(new_user)
@@ -37,5 +44,11 @@ def create_user():
 
 @blueprint.route('/<int:id>/', methods=('GET',))
 def get_user(id):
+    """The get_user function is used to return a single instance from the users database table using the ID as the
+    lookup parameter.
+
+    :param id: The user ID used to get a single instance from the users table
+    :return: Single instance of User if found
+    """
     user = User.query.get(id)
     return user_schema.jsonify(user)

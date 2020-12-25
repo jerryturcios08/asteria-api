@@ -4,6 +4,7 @@ from asteria.db import db
 
 
 class User(db.Model):
+    """The User class is used to define a database table for storing users."""
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
@@ -11,6 +12,13 @@ class User(db.Model):
     password = db.Column(db.String(255))
 
     def __init__(self, first_name, last_name, email, password):
+        """Initializes an instance of the User class.
+
+        :param first_name: The user's first name
+        :param last_name: The user's last name
+        :param email: The user's email used to login
+        :param password: The user's password used to login
+        """
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
