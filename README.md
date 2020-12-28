@@ -29,7 +29,7 @@ $ . venv/bin/activate
 Install the dependencies defined in `requirements.txt`
 
 ```
-$ pip install -e .
+$ pip install -r requirements.txt
 ```
 
 Create a `.env` file at the root of the project. The file must have the following defined.
