@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, jsonify, request
 
 from asteria.db import db
@@ -18,6 +20,8 @@ def create_user():
     """
     first_name = request.json['first_name']
     last_name = request.json['last_name']
+    date_of_birth = request.json['date_of_birth']
+    city_of_birth = request.json['city_of_birth']
     email = request.json['email']
     password = request.json['password']
     error = None
@@ -27,6 +31,10 @@ def create_user():
         error = 'First name is required.'
     elif not last_name:
         error = 'Last name is required.'
+    elif not date_of_birth:
+        error = 'Date of birth is required.'
+    elif not city_of_birth:
+        error = 'City of birth is required.'
     elif not email:
         error = 'Email is required.'
     elif not password:
@@ -34,10 +42,16 @@ def create_user():
 
     # Creates the new user if no error is present
     if error is None:
-        new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({'message': 'Successfully created a new user.'})
+        # Takes the date time string and attempts to convert it over to a datetime instance
+        try:
+            formatted_date = datetime.strptime(date_of_birth, '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            return jsonify({'error': f'{date_of_birth} is not a valid date in the format YYYY-MM-DD HH:MM:SS'})
+        else:
+            new_user = User(first_name, last_name, formatted_date, city_of_birth, email, password)
+            db.session.add(new_user)
+            db.session.commit()
+            return jsonify({'message': 'Successfully created a new user.'})
     else:
         return jsonify({'error': error})
 
