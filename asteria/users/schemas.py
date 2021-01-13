@@ -6,7 +6,8 @@ class UserSchema(ma.Schema):
     the User class in HTTP requests."""
     class Meta:
         """The Meta class contains meta information for UserSchema such as the parameters that get serialized."""
-        fields = ('id', 'first_name', 'last_name', 'date_of_birth', 'city_of_birth', 'email')
+        fields = ('id', 'first_name', 'last_name', 'username', 'date_of_birth', 'city_of_birth', 'email')
+        ordered = True
 
 
 user_schema = UserSchema()

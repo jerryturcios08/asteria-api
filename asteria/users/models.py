@@ -8,12 +8,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
+    username = db.Column(db.String(255), unique=True)
     date_of_birth = db.Column(db.DateTime)
     city_of_birth = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
 
-    def __init__(self, first_name, last_name, date_of_birth, city_of_birth, email, password):
+    def __init__(self, first_name, last_name, username, date_of_birth, city_of_birth, email, password):
         """Initializes an instance of the User class.
 
         :param first_name: The user's first name
@@ -25,6 +26,7 @@ class User(db.Model):
         """
         self.first_name = first_name
         self.last_name = last_name
+        self.username = username
         self.date_of_birth = date_of_birth
         self.city_of_birth = city_of_birth
         self.email = email
